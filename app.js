@@ -50,6 +50,17 @@ app.post('/todos', (req, res) => {
     .catch(error => console.log(error))
 })
 
+
+// 1.先在index.hbs將detail導向的目標網址參數設為MongoDb中的_id 2.用params抓出點選目標的id 3.運用此id帶回資料庫搜尋 4.最後將畫面選染出來
+app.get('/todos/:id', (req, res) => {
+  const id = req.params.id
+  // console.log(id)//檢查
+  return Todo.findById(id)  //從資料庫裡找出"特定一筆"資料
+    .lean() //將資料整理乾淨
+    .then((todo) => res.render('detail',{ todo })) //todo為選取完存放的變數
+    .catch(error => console.log(error))
+})
+
 app.listen(port, () => {
   console.log(`express is running on http://localhost:${port}` )
 })

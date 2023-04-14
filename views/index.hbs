@@ -3,6 +3,8 @@
   {{#each todos}}
   <li>
     {{this.name}}
+    <a href="./todos/{{this._id}}">detail</a> 
+    {{!-- 這邊的 _id 為 MongoDB 內預設好的識別碼 _id --}}
   </li>
   {{/each}}
 </ul>
