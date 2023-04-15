@@ -81,11 +81,23 @@ app.post("/todos/:id/edit", (req,res) => {
   return Todo.findById(id)
     .then((todo) => {
       todo.name = name 
-      return todo.save()
+      return todo.save() //如果查詢成功，修改後重新儲存資料(先將修改後的資料儲存，防止非同步狀況)
     })
-    .then(() => res.redirect(`/todos/${id}`))
+    .then(() => res.redirect(`/todos/${id}`)) //如果儲存成功，導向首頁
     .catch(error => console.log(error))
 })
+
+
+// delete route
+app.post('/todos/:id/delete',(req, res) => {
+  const id = req.params.id
+  return Todo.findById(id)
+    .then((todo) => todo.remove())
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
+
+
 
 app.listen(port, () => {
   console.log(`express is running on http://localhost:${port}` )
