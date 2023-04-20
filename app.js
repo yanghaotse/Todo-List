@@ -1,11 +1,12 @@
 const express = require('express')
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 // const Todo = require('./models/todo') //載入Todo model
 const bodyParser = require('body-parser')
 
 const methodOverride = require('method-override')
 const routes = require('./routes')//引入路由器時，路徑設定為 /routes 就會自動去尋找目錄下叫做 index 的檔案
+require('./config/mongoose')
 const port = 3000
 const app = express()
 
@@ -17,21 +18,21 @@ app.use(express.urlencoded({ extended: true}))//body-parser
 app.use(methodOverride('_method'))
 
 // 僅在非正式環境時, 使用 dotenv
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+// if (process.env.NODE_ENV !== 'production') {
+//   require('dotenv').config()
+// }
+// mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
-// 取得資料庫連線狀態
-const db = mongoose.connection
-// 連線異常
-db.on('error', () => {
-  console.log("mongodb error!")
-})
-// 連線成功
-db.once('open', () => {
-  console.log('mongodb connected!')
-})
+// // 取得資料庫連線狀態
+// const db = mongoose.connection
+// // 連線異常
+// db.on('error', () => {
+//   console.log("mongodb error!")
+// })
+// // 連線成功
+// db.once('open', () => {
+//   console.log('mongodb connected!')
+// })
 
 app.use(routes)
 
