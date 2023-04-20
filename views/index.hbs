@@ -8,7 +8,7 @@
     <a href="./todos/{{this._id}}">detail</a> 
     {{!-- 這邊的 _id 為 MongoDB 內預設好的識別碼 _id --}}
     <a href="/todos/{{this._id}}/edit">edit</a>
-    <form action="/todos/{{this._id}}/delete" method="POST" style="display:inline">
+    <form action="/todos/{{this._id}}?_method=DELETE" method="POST" style="display:inline">
       <button type="submit">delete</button>
     </form>
     {{!-- <form>預設是block --}}

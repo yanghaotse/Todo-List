@@ -3,6 +3,9 @@ const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const Todo = require('./models/todo') //載入Todo model
 const bodyParser = require('body-parser')
+
+const methodOverride = require('method-override')
+
 const port = 3000
 const app = express()
 
@@ -18,7 +21,7 @@ app.engine('hbs', exphbs({defaultLayout : 'main', extname : '.hbs'}))//在應用
 // {extname: '.hbs'}，是指定副檔名為 .hbs
 app.set('view engine', 'hbs')//hbs元件 正式掛載
 app.use(express.urlencoded({ extended: true}))//body-parser
-
+app.use(methodOverride('_method'))
 
 // 取得資料庫連線狀態
 const db = mongoose.connection
@@ -76,7 +79,7 @@ app.get('/todos/:id/edit', (req, res) => {
 })
 
 // edit post route
-app.post("/todos/:id/edit", (req,res) => {
+app.put("/todos/:id", (req,res) => {
   const id = req.params.id
   // console.log(req.body) //檢查req.body
   // const name = req.body.name
@@ -100,7 +103,7 @@ app.post("/todos/:id/edit", (req,res) => {
 
 
 // delete route
-app.post('/todos/:id/delete',(req, res) => {
+app.delete('/todos/:id',(req, res) => {
   const id = req.params.id
   return Todo.findById(id)
     .then((todo) => todo.remove())
