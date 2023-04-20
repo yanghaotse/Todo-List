@@ -2,6 +2,7 @@
 <ul>
   {{#each todos}}
   <li>
+    <input type="checkbox" name="isDone" {{#if this.isDone}}checked{{/if}} disabled>
     {{this.name}}
     {{!-- "/":絕對路徑。 "./":相對路徑 。這邊兩種都可用不影響--}}
     <a href="./todos/{{this._id}}">detail</a> 

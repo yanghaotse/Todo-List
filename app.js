@@ -77,10 +77,20 @@ app.get('/todos/:id/edit', (req, res) => {
 // edit post route
 app.post("/todos/:id/edit", (req,res) => {
   const id = req.params.id
-  const name = req.body.name
+  // console.log(req.body) //檢查req.body
+  // const name = req.body.name
+  // const isDone = req.body.isDone //可減寫為下方:結構賦值
+  const {name, isDone} = req.body
   return Todo.findById(id)
     .then((todo) => {
       todo.name = name 
+      // if(todo.isDone === 'on'){
+      //   todo.isDone = true
+      // }else{
+      //   todo.isDone = false
+      // }
+      // 上部分可減寫成下方
+      todo.isDone = isDone === 'on' //checkbox回傳值為'on'，否則不會代值
       return todo.save() //如果查詢成功，修改後重新儲存資料(先將修改後的資料儲存，防止非同步狀況)
     })
     .then(() => res.redirect(`/todos/${id}`)) //如果儲存成功，導向首頁
@@ -93,7 +103,7 @@ app.post('/todos/:id/delete',(req, res) => {
   const id = req.params.id
   return Todo.findById(id)
     .then((todo) => todo.remove())
-    .then(() => res.redirect('/'))
+    .then(() => res.redirect('/'))// 用res.render('index')後面要加{ todos }變數
     .catch(error => console.log(error))
 })
 
